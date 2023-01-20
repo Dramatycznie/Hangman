@@ -1,15 +1,28 @@
 import random
+import time
 
 play_again = True
 print("The Hangman Game")
 while play_again:
-    words = ["python", "programming", "language", "computer", "science"]
-    word = random.choice(words)
+    difficulty = input("Select difficulty level (easy, medium, hard): ").lower()
+
+    if difficulty == "easy":
+        word_list = ["cat", "dog", "sun", "moon", "happy"]
+        max_incorrect_guesses = 8
+    elif difficulty == "medium":
+        word_list = ["python", "programming", "language", "computer", "science"]
+        max_incorrect_guesses = 6
+    elif difficulty == "hard":
+        word_list = ["supercalifragilisticexpialidocious", "antidisestablishmentarianism",
+                     "floccinaucinihilipilification"]
+        max_incorrect_guesses = 4
+    else:
+        continue
+    word = random.choice(word_list)
     correct_letters = []
     incorrect_guesses = 0
-
     guessed_letters = []
-    word_display = "_" * len(word)
+    word_display = "-" * len(word)
     while len(correct_letters) < len(word) and incorrect_guesses < 6:
         print("Guessed letters: " + " ".join(guessed_letters))
         print("Word: " + word_display)
@@ -22,10 +35,13 @@ while play_again:
         else:
             guessed_letters.append(guess)
             if guess in word:
-                for i in range(len(word)):
-                    if word[i] == guess:
-                        word_display = word_display[:i] + guess + word_display[i + 1:]
-                        print("You guessed right!")
+                positions = [i for i in range(len(word)) if word[i] == guess]
+                for i in positions:
+                    word_display = word_display[:i] + guess + word_display[i + 1:]
+                if len(positions) > 1:
+                    print("You guessed right!")
+                else:
+                    print("You guessed right! The letter {} is in the word!".format(guess))
                 if word_display == word:
                     print("You guessed the word!")
                     break
@@ -47,3 +63,4 @@ while play_again:
         play_again = input("Do you want to play again? (yes/no) ").lower()
 
 print("Thanks for playing!")
+time.sleep(2)
