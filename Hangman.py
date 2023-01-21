@@ -27,14 +27,14 @@ while play_again:
         print("Guessed letters: " + " ".join(guessed_letters))
         print("Word: " + word_display)
         print("You have", 6 - incorrect_guesses, "chances left.")
-        guess = input("Guess a letter: ")
+        guess = input("Guess a letter: ").lower()
         if guess in guessed_letters:
             print("You've already guessed that letter. Try again.")
         elif not guess.isalpha() or len(guess) != 1:
             print("Please enter a single letter.")
         else:
             guessed_letters.append(guess)
-            if guess in word:
+            if guess in word.lower():
                 positions = [i for i in range(len(word)) if word[i] == guess]
                 for i in positions:
                     word_display = word_display[:i] + guess + word_display[i + 1:]
@@ -54,9 +54,9 @@ while play_again:
         print("You win! The word was " + word + ".")
 
     play_again = input("Do you want to play again? (yes/no) ").lower()
-    if play_again in ["yes", "y", "Yes", "YES", "Y"]:
+    if play_again.lower() in ["yes", "y"]:
         play_again = True
-    elif play_again in ["no", "n", "NO", "No", "N"]:
+    elif play_again.lower() in ["no", "n"]:
         play_again = False
     else:
         print("Please enter valid answer!")
